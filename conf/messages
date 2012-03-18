@@ -12,3 +12,6 @@ email=Email
 password=Password
 fullname=Full name
 isAdmin=User is admin
+secure.username=Your Email:
+secure.password=Your Password:
+secure.signin=Log in now
