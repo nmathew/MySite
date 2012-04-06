@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<testsuite failures="0" time="0.047" errors="0" skipped="0" tests="6" name="BasicTest">
+<testsuite failures="1" time="759.003" errors="0" skipped="0" tests="6" name="BasicTest">
   <testcase classname="BasicTest" name="createAndRetrieveUser" time="0.016">
       </testcase>
-  <testcase classname="BasicTest" name="tryConnectAsUser" time="0">
+  <testcase classname="BasicTest" name="tryConnectAsUser" time="0.015">
       </testcase>
-  <testcase classname="BasicTest" name="testPost" time="0">
+  <testcase classname="BasicTest" name="testPost" time="0.016">
       </testcase>
-  <testcase classname="BasicTest" name="postComments" time="0.016">
+  <testcase classname="BasicTest" name="postComments" time="0">
       </testcase>
-  <testcase classname="BasicTest" name="useTheCommentsRelation" time="0.015">
+  <testcase classname="BasicTest" name="useTheCommentsRelation" time="0.031">
       </testcase>
-  <testcase classname="BasicTest" name="testTags" time="0">
+  <testcase classname="BasicTest" name="fullTest" time="0.094">
       </testcase>
+  <testcase classname="BasicTest" name="testTags" time="758.831">
+                  <failure type="" message="Failure, expected:&lt;2&gt; but was:&lt;0&gt;">
+        <![CDATA[
+          In /test/BasicTest.java, line 130
+          
+                  	assertEquals(2, Post.findTaggedWith(&quot;Red&quot;).size()); :
+          
+        ]]>
+        </failure>
+        }
+                  </testcase>
 </testsuite>

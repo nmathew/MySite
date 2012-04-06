@@ -1,31 +1,48 @@
 package controllers;
 
-import play.*;
-import play.mvc.*;
+import java.util.List;
 
-import java.util.*;
-
-import models.*;
-import play.data.validation.*;
-import play.libs.*;
-import play.cache.*;
+import models.Post;
+import models.User;
+import play.Play;
+import play.cache.Cache;
+import play.data.validation.Required;
+import play.libs.Codec;
+import play.libs.Images;
+import play.modules.siena.SienaFixtures;
+import play.mvc.Before;
+import play.mvc.Controller;
+import lib.jobs.BootStrap;
+import siena.Query;
 
 public class Application extends Controller {
 
     public static void index() {
-    	Post frontPost = Post.find("order by postedAt desc").first();
-    	List<Post> olderPosts = Post.find("order By postedAt desc").from(1).fetch(10);
+    	//Post frontPost = Post.find("order by postedAt desc").first();
+    	Query<Post> postquery = Post.all();
+    	Post frontPost = postquery.order("-postedAt").get();
+    	//List<Post> olderPosts = Post.find("order By postedAt desc").from(1).fetch(10);
+    	List<Post> olderPosts = postquery.order("-postedAt").offset(1).fetch(10);
     	
         render(frontPost, olderPosts);
     }
+    @Before
+	public static void loadYaml() {	
+    	if(User.all().count() <= 0) {  
+    		new BootStrap().doJob();			
+    	}
+	}
+    
     @Before
     public static void addDefaults() {
     	renderArgs.put("blogTitle", Play.configuration.getProperty("blog.title"));
     	renderArgs.put("blogBaseline", Play.configuration.getProperty("blog.baseline"));
     }
     
-    public static void Show(Long id) {
+    public static void Show(Long id) {    	
     	Post post = Post.findById(id);
+    	/*
+    	Post post = Post.all().filter("id", id).get();*/
     	String randomID = Codec.UUID(); 
     	render(post, randomID);
     }

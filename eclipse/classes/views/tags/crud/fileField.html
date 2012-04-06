@@ -1,10 +1,11 @@
-#{field 'object.' + _name}
+
+#{field (_prefix ? _prefix + '.' : 'object.') + _name}
     <label for="${field.id}">
         &{_name}
     </label>
     <input id="${field.id}" class="${field.errorClass}" type="file" name="${field.name}" />
     #{ifError field.name}
-        <span class="error">${field.error.raw()}</span>
+        <span class="error">${field.error}</span>
     #{/ifError}
     #{if _value && _value.exists() && _id}
         <a class="currentAttachment" href="@{attachment(_id, _name)}">Download current file (${_value.length().formatSize()})</a>

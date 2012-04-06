@@ -1,75 +1,118 @@
 package models;
 
-import java.util.*;
-import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
-import play.db.jpa.*;
-import play.data.validation.*;
+import play.*;
+import siena.*;
 
-@Entity
+import play.data.validation.Required;
+import siena.DateTime;
+import siena.Id;
+import siena.Index;
+import siena.Model;
+import siena.Query;
+import siena.Table;
+import siena.core.Aggregated;
+import siena.core.Many;
+import siena.core.Owned;
+import siena.Text;
+
 public class Post extends Model {
+	
+	@Id(Generator.AUTO_INCREMENT)
+	public Long id;
+	
 	@Required
 	public String title;
-	
+ 	
 	@Required
+	@DateTime
 	public Date postedAt;
 	
-	@Lob
+	@Text
 	@Required
-	@MaxSize(10000)
 	public String content;
 	
 	@Required
-	@ManyToOne
+	@Index("author_index")
 	public User author;
-	@OneToMany(mappedBy="post", cascade=CascadeType.ALL)
-	public List<Comment> comments;
-	@ManyToMany(cascade=CascadeType.PERSIST)
-	public Set<Tag> tags;
 	
+	@Owned(mappedBy="post")
+	public Many<Comment> comments;                                
+
+	@Aggregated
+	public Many<Tag> tags;
 	
 	public Post(String title, User author, String content) {
-		this.comments = new ArrayList<Comment>();
-		this.tags = new TreeSet<Tag>();
 		this.author = author;
 		this.title = title;
 		this.content = content;
 		this.postedAt = new Date();		
 	}
+	public Post() {}
 	
 	public Post addComment(String author, String content) {
-		Comment newComment = new Comment(this, author, content).save();
-		this.comments.add(newComment);
+		Comment newComment = new Comment(this, author, content);
+		this.comments.asList().add(newComment);		
 		this.save();
+		this.update();
 		return this;
 	}
 	
+	public static Query<Post> all() {
+		return Model.all(Post.class);
+	}
 	public Post previous () {
-		return Post.find("postedAt < ? order by postedAt desc", postedAt).first();
+		return all().order("-postedAt").filter("postedAt<", postedAt).get();
 	}
 	
 	public Post next() {
-		return Post.find("postedAt > ? order by postedAt asc", postedAt).first();
+		return all().order("postedAt").filter("postedAt>", postedAt).get();
 	}	
 	
 	public Post tagItWith(String name) {
-		tags.add(Tag.findOrCreateByName(name));
+		tags.asList().add(Tag.findOrCreateByName(name));
+		this.save();
+		this.update();
 		return this;
 	}
 	
-	public static List<Post> findTaggedWith(String... tags) {
-	    return Post.find(
-	            "select distinct p from Post p join p.tags as t where t.name in (:tags) group by p.id, p.author, p.title, p.content,p.postedAt having count(t.id) = :size"
-	    ).bind("tags", tags).bind("size", tags.length).fetch();
-	}
-	
 	public static List<Post> findTaggedWith(String tag) {
-	    return Post.find(
-	        "select distinct p from Post p join p.tags as t where t.name = ?", tag
-	    ).fetch();
+		List <Post> posts = all().fetch();
+		List <Post> result = new ArrayList();
+		
+	    Iterator<Post> postIterator = posts.iterator();
+	    while(postIterator.hasNext())
+	    {
+	    	if(postIterator.next().tags.asQuery().filter("name", tag).count() >= 1)
+	    		result.add(postIterator.next());	    	
+	    }
+	    return result;
 	}
 	
 	public String toString() {
 		return this.title;
 	}
+	
+	public static Post findById(Long id) {
+		return all().filter("id", id).get();		
+	}
+	
+	public static int count() {
+		return all().fetch().size();
+	}
+	
+	public List<Comment> findComments(){
+		return this.comments.asList();
+	}
+	public List<Tag> findTags() {		
+		return this.tags.asList();
+	}
+	public Long getId() {
+		return id;
+	}
+	
 }

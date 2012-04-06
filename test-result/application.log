@@ -1,5 +1,10 @@
-15 Mar 2012 19:50:27,867 INFO  ~ Starting D:\play\yabe
-15 Mar 2012 19:50:28,523 WARN  ~ You're running Play! in DEV mode
-15 Mar 2012 19:50:28,664 INFO  ~ Listening for HTTP on port 9000 (Waiting a first request to start) ...
-15 Mar 2012 19:50:40,814 INFO  ~ Connected to jdbc:h2:mem:play;MODE=MYSQL;LOCK_MODE=0
-15 Mar 2012 19:50:42,329 INFO  ~ Application 'Yet Another Blog Engine' is now started !
+28 Mar 2012 18:10:50,725 INFO  ~ Starting D:\play\yabe
+28 Mar 2012 18:10:50,740 INFO  ~ Module crudsiena is available (D:\play\yabe\modules\crudsiena-2.0.2)
+28 Mar 2012 18:10:50,740 INFO  ~ Module secure is available (D:\play\modules\secure)
+28 Mar 2012 18:10:50,740 INFO  ~ Module siena is available (D:\play\yabe\modules\siena-2.0.7)
+28 Mar 2012 18:10:51,397 WARN  ~ You're running Play! in DEV mode
+28 Mar 2012 18:10:51,537 INFO  ~ Listening for HTTP on port 9000 (Waiting a first request to start) ...
+28 Mar 2012 18:11:33,271 INFO  ~ Connected to jdbc:mysql://localhost:3306/test?useUnicode=yes&characterEncoding=UTF-8&connectionCollation=utf8_general_ci
+28 Mar 2012 18:11:33,287 INFO  ~ Siena DB Type: sql:mysql
+28 Mar 2012 18:11:33,427 WARN  ~ Siena DDL createTables generated exception:com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException: Table 'comment' already exists
+28 Mar 2012 18:11:33,443 INFO  ~ Application 'Yet Another Blog Engine' is now started !

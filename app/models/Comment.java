@@ -1,26 +1,36 @@
 package models;
 
 import java.util.*;
-import javax.persistence.*;
-import play.db.jpa.*;
-import play.data.validation.*;
 
-@Entity
+import play.data.validation.Email;
+import play.data.validation.Required;
+import siena.*;
+import play.*;
+
+
 public class Comment extends Model {
+	@Id(Generator.AUTO_INCREMENT)
+	public Long id;
+	
 	@Required
 	public String author;
-	@Required
+	
+	
+	@DateTime
 	public Date postedAt;
 	
-	@Lob
-	@Required
-	@MaxSize(10000)
+	@Text
+	@Required		
 	public String content;
 	
-	@ManyToOne
+	
 	@Required
 	public Post post;
 	
+	public static Query<Comment> all() {
+		return Model.all(Comment.class);
+	}
+	 
 	public Comment(Post post, String author, String content) {
 		this.post = post;
 		this.author = author;
@@ -30,5 +40,11 @@ public class Comment extends Model {
 	
 	public String toString() {
 		return "Comment_on_" + this.post.title;
+	}
+	public static int count() {
+		return all().fetch().size();
+	}
+	public Long getId() {
+		return id;
 	}
 }

@@ -1,6 +1,6 @@
 package controllers;
 
-import models.*;
+import models.User;
 
 public class Security extends Secure.Security {
 	static boolean authenticate(String username, String password) {
@@ -17,7 +17,8 @@ public class Security extends Secure.Security {
 	
 	static boolean check(String profile) {
 		if("admin".equals(profile)) {
-			return User.find("byEmail", Security.connected()).<User>first().isAdmin;
+			//return User.find("byEmail", Security.connected()).<User>first().isAdmin;
+			return User.all().filter("email", Security.connected()).get().isAdmin;
 		}
 		return false;
 	}

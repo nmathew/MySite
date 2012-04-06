@@ -1,13 +1,16 @@
 #{extends 'CRUD/layout.html' /}
 #{set title:messages.get('crud.show.title', type.modelName) /}
+%{
+    def keyVal = play.modules.siena.SienaModelUtils.keyValue(object)
+ }%
 
 <div id="crudShow" class="${type.name}">
 
     <h2 id="crudShowTitle">&{'crud.show.title', type.modelName}</h2>
 
     <div class="objectForm">
-    #{form action:@save(object._key()), enctype:'multipart/form-data'}
-        #{crud.form}
+    #{form action:@save(keyVal), enctype:'multipart/form-data'}
+    	#{crud.form}
         	#{crud.custom 'tags'}
         		<label for="tags">
         			&{'tags'}
@@ -27,15 +30,15 @@
         		<div class="tags-list">
         			#{list items:models.Tag.findAll(), as:'tag'}
         				<span id="${tag.id}" onclick="toggle(this)"
-        					class="tag ${object.tags.contains(tag) ? 'selected' : ''}">
+        					class="tag ${object.tags.asList().contains(tag) ? 'selected' : ''}">
         					${tag} 
         				</span>
         				<input id="h${tag.id}" type="hidden" name="${fieldName}"
-        					value="${object.tags.contains(tag) ? tag.id : ''}" />
+        					value="${object.tags.asList().contains(tag) ? tag.id : ''}" />
         			#{/list}
         		</div>
         	#{/crud.custom}
-        #{/crud.form}
+        #{/crud.form}   
         <p class="crudButtons">
             <input type="submit" name="_save" value="&{'crud.save', type.modelName}" />
             <input type="submit" name="_saveAndContinue" value="&{'crud.saveAndContinue', type.modelName}" />
@@ -43,10 +46,10 @@
     #{/form}
     </div>
 
-    #{form @delete(object._key())}
+    #{form @delete(keyVal)}
         <p class="crudDelete">
             <input type="submit" value="&{'crud.delete', type.modelName}" />
         </p>
     #{/form}
 
-</div>
+</div

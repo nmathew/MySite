@@ -42,9 +42,7 @@ Post(firstNobinPost):
 Post(secondNobinPost):
     title:          Rescued
     postedAt:       2010-06-13
-    author:         Nobin
-    tags:
-                    - Web
+    author:         Nobin    
     content:        >
                     Finally I am here, without knowing much about ruby, rails and sinatra. 
                     Thanks to Jekyll, GitHub and Disqus. May be in the next post I can 
@@ -53,9 +51,7 @@ Post(secondNobinPost):
 Post(thirdNobinPost):
     title:          Working with Clang and LLVM
     postedAt:       2010-06-27
-    author:         Nobin
-    tags:           
-                    - LLVM
+    author:         Nobin    
     content:        >
                     LLVM is a new compiler framework being developed by University of illinois with financial
                     help from Apple Inc. Clang is the compiler frontend for LLVM for parsing C, CPP, 
@@ -69,10 +65,7 @@ Post(thirdNobinPost):
 Post(fourthNobinPost):
     title:          Address Remapping in Embedded Systems
     postedAt:       2010-07-01
-    author:         Nobin
-    tags:           
-                    - Embedded
-                    - Remapping
+    author:         Nobin    
     content:         >
                     Somebody asked me why address remapping is required in embedded systems, after some thoughts
                     I got the answer. In every embedded system actual code resides in non-volatile memory and on
@@ -104,7 +97,7 @@ Post(fourthNobinPost):
                     still keeping the exception vectors at NOR and without performing remap. Any problems, Yes think of 
                     Linux, when Linux starts execution it needs its exception vectors at 0h (processor want this at 0h),
                     since we cannt write into NOR we must remap DRAM to 0h and copy linux 
-                    exception vectors to 0h. Thats it, Happy Programming.
+                    exception vectors to 0h. Thats it, Happy Programming.Fuck you
                     
 Comment(c1):
     author:         Nobin
