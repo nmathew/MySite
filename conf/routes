@@ -6,6 +6,9 @@ GET		/admin/									Admin.index
 *		/admin									module:crudsiena
 *		/										module:secure
 
+GET		/admin/new								Admin.form
+POST	/admin/new								Admin.save
+
 # Home page
 GET     /                                       Application.index
 
