@@ -6,6 +6,11 @@ GET		/admin/									Admin.index
 *		/admin									module:crud
 *		/										module:secure
 
+GET		/admin/myPosts/{id}						Admin.form
+GET		/admin/new								Admin.form
+POST	/admin/myPosts/{id}						Admin.save
+POST	/admin/new								Admin.save
+
 # Home page
 GET     /                                       Application.index
 
@@ -23,5 +28,3 @@ GET     /posts/{tag}							Application.listTagged
 
 POST	/posts/{postId}/comments				Application.postComment
 GET		/captcha								Application.captcha
-
-
