@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Post;
+import models.Tag;
 import models.User;
 import play.mvc.Before;
 import play.mvc.Controller;
@@ -24,12 +25,41 @@ public class Admin extends Controller {
 		render(posts);
 	}
 	
-	public static void form() {
-		render();
+	public static void form(Long id) {
+		if(id != null) {
+	        Post post = Post.findById(id);
+	        render(post);
+	    }
+	    render();		
 	}
 	
-	public static void save() {
+	public static void save(Long id, String title, String content, String tags) {
+		Post post;
 		
+		if(id == null) {
+			User author = User.all().filter("email", Security.connected()).get();
+			post = new Post(title, author, content);
+		}
+		else {
+			post = Post.findById(id);
+			post.title = title;
+			post.content = content;
+			post.tags.asList().clear();
+		}
+		
+		for(String tag : tags.split("\\s+")) {
+	        if(tag.trim().length() > 0) {
+	            post.tags.asList().add(Tag.findOrCreateByName(tag));
+	        }
+	    }
+	    // Validate
+	    validation.valid(post);
+	    if(validation.hasErrors()) {
+	        render("@form", post);
+	    }
+	    // Save
+	    post.save();
+	    index();		
 	}
 
 }

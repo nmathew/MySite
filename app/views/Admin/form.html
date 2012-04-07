@@ -33,7 +33,12 @@
 	<p>
 		#{field 'tags'}
 			<label>Enter some tags:</label>
+		#{if post?.id}
+			<input type="text" size="50" name="${field.name}" value="${post?.tags?.asList()?.toString()?.join(' ')}" />
+		#{/if}
+		#{else}			
 			<input type="text" size="50" name="${field.name}" value="${post?.tags?.join(' ')}" />
+		#{/else}		
 		#{/field}
 	</p>
 	

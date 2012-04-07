@@ -7,7 +7,9 @@ GET		/admin/									Admin.index
 *		/										module:secure
 
 GET		/admin/new								Admin.form
+GET		/admin/myPosts/{id}						Admin.save
 POST	/admin/new								Admin.save
+POST	/admin/myPosts/{id}						Admin.save
 
 # Home page
 GET     /                                       Application.index

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.*;
 
 import play.*;
 import siena.*;
@@ -46,19 +47,20 @@ public class Post extends Model {
 	@Aggregated
 	public Many<Tag> tags;
 	
-	public Post(String title, User author, String content) {
+ 	public Post(String title, User author, String content) {
 		this.author = author;
 		this.title = title;
 		this.content = content;
 		this.postedAt = new Date();		
 	}
+ 	
 	public Post() {}
 	
 	public Post addComment(String author, String content) {
 		Comment newComment = new Comment(this, author, content);
 		this.comments.asList().add(newComment);		
 		this.save();
-		this.update();
+		this.update();		
 		return this;
 	}
 	
@@ -70,12 +72,13 @@ public class Post extends Model {
 	}
 	
 	public Post next() {
+		
 		return all().order("postedAt").filter("postedAt>", postedAt).get();
 	}	
 	
 	public Post tagItWith(String name) {
 		tags.asList().add(Tag.findOrCreateByName(name));
-		this.save();
+		this.save();	
 		this.update();
 		return this;
 	}
@@ -85,10 +88,13 @@ public class Post extends Model {
 		List <Post> result = new ArrayList();
 		
 	    Iterator<Post> postIterator = posts.iterator();
+	    
 	    while(postIterator.hasNext())
 	    {
-	    	if(postIterator.next().tags.asQuery().filter("name", tag).count() >= 1)
+	    	if(postIterator.next().tags.asQuery().fetch().size()>= 1){
+	    	if((postIterator.next().tags.asQuery().filter("name", tag).fetch().size()) >= 1)
 	    		result.add(postIterator.next());	    	
+	    	}
 	    }
 	    return result;
 	}
@@ -114,5 +120,5 @@ public class Post extends Model {
 	public Long getId() {
 		return id;
 	}
-	
 }
+	
