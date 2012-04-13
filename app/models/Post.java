@@ -92,7 +92,7 @@ public class Post extends Model {
 	    while(postIterator.hasNext())
 	    {
 	    	if(postIterator.next().tags.asQuery().fetch().size()>= 1){
-	    	if((postIterator.next().tags.asQuery().filter("name", tag).fetch().size()) >= 1)
+	    	if((postIterator.next().tags.asQuery().fetch().size()) >= 1)
 	    		result.add(postIterator.next());	    	
 	    	}
 	    }
